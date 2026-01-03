@@ -33,7 +33,7 @@
         .nav-links a:hover, .nav-links a.active { color: var(--primary-red); text-shadow: 0 0 8px var(--primary-red); }
 
         header { 
-            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80&w=1000');
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), url('cover.jpg'); 
             background-size: cover; background-position: center; padding: 100px 20px; text-align: center; 
         }
 
@@ -69,7 +69,14 @@
         }
         .product { background: var(--card-gray); border: 1px solid #333; border-radius: 8px; overflow: hidden; transition: 0.3s; text-align: center; padding-bottom: 20px; position: relative; }
         .product:hover { transform: translateY(-10px); border-color: var(--primary-red); box-shadow: 0 10px 20px rgba(204, 0, 0, 0.2); }
-        .product img { width: 100%; height: 200px; object-fit: cover; }
+
+        .slider-container { position: relative; width: 100%; height: 200px; background: #000; overflow: hidden; }
+        .slider-container img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .slider-container img.active { display: block; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px 5px; cursor: pointer; font-weight: bold; z-index: 5; font-size: 18px; }
+        .slider-btn:hover { background: var(--primary-red); }
+        .prev-btn { left: 0; border-radius: 0 5px 5px 0; }
+        .next-btn { right: 0; border-radius: 5px 0 0 5px; }
 
         .social-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
         .social-rect { padding: 12px 25px; border-radius: 4px; text-decoration: none; color: white; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; transition: 0.3s; }
@@ -128,9 +135,14 @@
         <h2>Inventory</h2>
         <div class="products">
             <div class="product" id="prod-1">
-                <img src="https://images.unsplash.com/photo-1542362567-b055002b91f4?w=400" alt="طاره عربية bmw">
-                <h3>طاره عربية bmw</h3>
-                <p>3,500 EGP</p>
+                <div class="slider-container" id="slider-1">
+                    <button class="slider-btn prev-btn" onclick="moveSlide(1, -1)">&#10094;</button>
+                    <img src="1.jpg.jpeg" class="active">
+                    <img src="1_alt.jpg">
+                    <button class="slider-btn next-btn" onclick="moveSlide(1, 1)">&#10095;</button>
+                </div>
+                <h3>فانوس هونداي اي دي سموك</h3>
+                <p>15,000 EGP</p>
                 <div class="qty-controls hidden" id="controls-1">
                     <button class="qty-btn" onclick="updateMainQty(1, -1)">-</button>
                     <span id="main-qty-1">0</span>
@@ -140,7 +152,12 @@
             </div>
 
             <div class="product" id="prod-2">
-                <img src="https://images.unsplash.com/photo-1598558943343-2678855e967d?w=400" alt="فرش جلد">
+                <div class="slider-container" id="slider-2">
+                    <button class="slider-btn prev-btn" onclick="moveSlide(2, -1)">&#10094;</button>
+                    <img src="2.jpg" class="active">
+                    <img src="2_alt.jpg">
+                    <button class="slider-btn next-btn" onclick="moveSlide(2, 1)">&#10095;</button>
+                </div>
                 <h3>فرش جلد</h3>
                 <p>2,000 EGP</p>
                 <div class="qty-controls hidden" id="controls-2">
@@ -152,7 +169,12 @@
             </div>
 
             <div class="product" id="prod-3">
-                <img src="https://images.unsplash.com/photo-1552650272-b8a34e21bc4b?w=400" alt="فانوس ad led">
+                <div class="slider-container" id="slider-3">
+                    <button class="slider-btn prev-btn" onclick="moveSlide(3, -1)">&#10094;</button>
+                    <img src="3.jpg" class="active">
+                    <img src="3_alt.jpg">
+                    <button class="slider-btn next-btn" onclick="moveSlide(3, 1)">&#10095;</button>
+                </div>
                 <h3>فانوس ad led</h3>
                 <p>1,200 EGP</p>
                 <div class="qty-controls hidden" id="controls-3">
@@ -164,7 +186,12 @@
             </div>
 
             <div class="product" id="prod-4">
-                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400" alt="كساحة">
+                <div class="slider-container" id="slider-4">
+                    <button class="slider-btn prev-btn" onclick="moveSlide(4, -1)">&#10094;</button>
+                    <img src="4.jpg" class="active">
+                    <img src="4_alt.jpg">
+                    <button class="slider-btn next-btn" onclick="moveSlide(4, 1)">&#10095;</button>
+                </div>
                 <h3>كساحة</h3>
                 <p>800 EGP</p>
                 <div class="qty-controls hidden" id="controls-4">
@@ -194,7 +221,6 @@
                 <input type="text" id="reg-phone" placeholder="Phone Number">
                 <input type="email" id="reg-email" placeholder="Email Address">
                 <input type="password" id="reg-pass" placeholder="Password">
-                
                 <select id="reg-loc-gov">
                     <option value="" disabled selected>Select Your Governorate</option>
                     <option value="Cairo">Cairo (القاهرة)</option>
@@ -225,9 +251,7 @@
                     <option value="North Sinai">North Sinai (شمال سيناء)</option>
                     <option value="Sohag">Sohag (سوهاج)</option>
                 </select>
-
                 <input type="text" id="reg-loc-addr" placeholder="Street Address / City">
-                
                 <div style="display: flex; gap: 10px;">
                     <button id="register-submit" style="flex: 1;">Create Account</button>
                     <button type="button" class="social-rect" style="background: #333; flex: 1; border: none; cursor: pointer;" onclick="showSection('home')">Save for another time</button>
@@ -277,7 +301,6 @@
                     <input type="hidden" name="Cart Items" id="hidden-cart">
                     <input type="hidden" name="_next" id="next-page">
                 </div>
-
                 <label>Car Color:</label>
                 <select id="car-color" name="Car Color" onchange="document.getElementById('other-color-input').classList.toggle('hidden', this.value !== 'Other')" required>
                     <option value="Black">Black</option>
@@ -286,22 +309,17 @@
                     <option value="Other">Other</option>
                 </select>
                 <input type="text" id="other-color-input" name="Custom Color" class="hidden" placeholder="Enter car color">
-                
                 <label>Any Comments?</label>
                 <textarea name="Comments" placeholder="Write your notes here..."></textarea>
-
                 <label>Payment Method:</label>
                 <select id="payment-method" name="Payment Method" onchange="document.getElementById('wallet-info').classList.toggle('hidden', this.value !== 'wallet')" required>
                     <option value="cod">Cash on Delivery</option>
                     <option value="wallet">Wallet Transfer</option>
                 </select>
-
                 <div id="wallet-info" class="hidden" style="background:#222; padding:10px; border-radius:5px; margin-top:5px">
                     <p style="margin:0; font-size:0.8rem">Transfer to: <strong>01030309098</strong></p>
-                    <p style="margin:0; font-size:0.7rem; color:#888">(Vodafone, Orange, Etisalat)</p>
                     <input type="text" name="Sender Number" placeholder="Your Wallet Number">
                 </div>
-                
                 <button type="submit" style="width:100%; margin-top: 20px;">Confirm Final Order</button>
             </form>
             <button id="cancel-confirm-btn" style="width:100%; background:#333; margin-top:10px;">Cancel</button>
@@ -317,12 +335,31 @@
 
         document.getElementById('next-page').value = window.location.href.split('#')[0] + '#thank-you';
 
+        function moveSlide(prodId, direction) {
+            const container = document.getElementById(`slider-${prodId}`);
+            const images = container.querySelectorAll('img');
+            let activeIdx = 0;
+            images.forEach((img, index) => {
+                if (img.classList.contains('active')) activeIdx = index;
+                img.classList.remove('active');
+            });
+            activeIdx = (activeIdx + direction + images.length) % images.length;
+            images[activeIdx].classList.add('active');
+        }
+
         function initAddToCart(id, name, price) {
             document.getElementById(`btn-${id}`).classList.add('hidden');
             document.getElementById(`controls-${id}`).classList.remove('hidden');
             document.getElementById(`main-qty-${id}`).innerText = "1";
             addToCartLogic(name, price);
         }
+
+        const prodPriceMap = {
+            'طاره عربية bmw': 3500,
+            'فرش جلد': 2000,
+            'فانوس ad led': 1200,
+            'كساحة': 800
+        };
 
         function updateMainQty(id, amount) {
             const qtyDisplay = document.getElementById(`main-qty-${id}`);
@@ -356,12 +393,17 @@
 
         function addToCartLogic(name, price) {
             const item = cart.find(i => i.name === name);
-            if(item) item.quantity++; else cart.push({name, price, quantity: 1});
+            if(item) {
+                item.quantity = 1; // Reset to 1 on initial click or use current logic
+            } else {
+                cart.push({name, price, quantity: 1});
+            }
             updateCartBadge();
         }
 
         function updateCartBadge() {
-            document.getElementById('view-cart-link').innerText = `Cart (${cart.reduce((a,b)=>a+b.quantity,0)})`;
+            const totalQty = cart.reduce((a, b) => a + b.quantity, 0);
+            document.getElementById('view-cart-link').innerText = `Cart (${totalQty})`;
         }
 
         function showSection(id) {
@@ -377,12 +419,7 @@
         document.getElementById('register-submit').onclick = () => {
             const gov = document.getElementById('reg-loc-gov').value;
             const addr = document.getElementById('reg-loc-addr').value;
-            
-            if(!gov) {
-                alert("Please select your governorate");
-                return;
-            }
-
+            if(!gov) { alert("Please select your governorate"); return; }
             const user = { 
                 name: document.getElementById('reg-name').value, 
                 email: document.getElementById('reg-email').value, 
@@ -390,7 +427,6 @@
                 phone: document.getElementById('reg-phone').value, 
                 loc: gov + " - " + addr 
             };
-            
             localStorage.setItem('devilUser', JSON.stringify(user));
             currentUser = user; 
             updateUI();
@@ -401,7 +437,11 @@
             if(saved && saved.email === document.getElementById('login-email').value) { currentUser = saved; updateUI(); }
         };
 
-        document.getElementById('logout-btn').onclick = () => { currentUser = null; updateUI(); };
+        document.getElementById('logout-btn').onclick = () => {
+            currentUser = null;
+            updateUI();
+            showSection('home');
+        };
 
         function updateUI() {
             if(currentUser) {
@@ -418,16 +458,19 @@
         updateUI();
 
         document.getElementById('checkout-btn').onclick = () => {
-            if (cart.length === 0) {
-                return alert("Your cart is empty! Please add products before checking out.");
-            }
+            if (cart.length === 0) { return alert("Your cart is empty!"); }
             if(!currentUser) return alert("Please Login First");
+            
+            const totalPrice = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            
             document.getElementById('conf-name-display').innerText = currentUser.name;
-            document.getElementById('conf-total-display').innerText = document.getElementById('cart-total').innerText;
+            document.getElementById('conf-total-display').innerText = totalPrice.toLocaleString();
+            
             document.getElementById('hidden-name').value = currentUser.name;
             document.getElementById('hidden-phone').value = currentUser.phone;
-            document.getElementById('hidden-total').value = document.getElementById('cart-total').innerText + " EGP";
+            document.getElementById('hidden-total').value = totalPrice.toLocaleString() + " EGP";
             document.getElementById('hidden-cart').value = cart.map(i => `${i.name} (x${i.quantity})`).join(", ");
+            
             document.getElementById('cart-modal').style.display = 'none';
             document.getElementById('confirm-modal').style.display = 'flex';
         };
@@ -437,8 +480,9 @@
             list.innerHTML = "";
             let total = 0;
             cart.forEach(i => {
-                total += (i.price * i.quantity);
-                list.innerHTML += `<div class="cart-item"><span>${i.name} (x${i.quantity})</span><span>${(i.price * i.quantity).toLocaleString()} EGP</span></div>`;
+                const subtotal = i.price * i.quantity;
+                total += subtotal;
+                list.innerHTML += `<div class="cart-item"><span>${i.name} (x${i.quantity})</span><span>${subtotal.toLocaleString()} EGP</span></div>`;
             });
             document.getElementById('cart-total').innerText = total.toLocaleString();
             document.getElementById('cart-modal').style.display = 'flex';
@@ -449,3 +493,6 @@
     </script>
 </body>
 </html>
+</body>
+</html>
+
