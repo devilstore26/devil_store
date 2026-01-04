@@ -32,10 +32,11 @@
 
         h2 { border-left: 5px solid var(--primary-red); padding-left: 15px; text-transform: uppercase; margin-bottom: 30px; }
 
+        /* Floating Cart Icon */
         .cart-floating {
             position: fixed;
-            bottom: 90px;
-            right: 20px;
+            bottom: 90px; /* تم رفعها لتكون فوق الواتساب */
+            right: 20px;  /* نقلها إلى جهة اليمين */
             background: var(--primary-red);
             width: 60px;
             height: 60px;
@@ -65,6 +66,7 @@
             justify-content: center;
         }
 
+        /* Lightbox for Images */
         .image-overlay {
             display: none;
             position: fixed;
@@ -108,8 +110,28 @@
         .hidden { display: none; }
         .wallet-details { background: #222; padding: 10px; border: 1px solid #444; margin-top: 10px; border-radius: 5px; }
 
-        .social-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
-        .social-rect { display: flex; align-items: center; gap: 10px; padding: 12px 25px; border-radius: 4px; text-decoration: none; color: white; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; transition: 0.3s; }
+        /* Social */
+        .social-container { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 15px; 
+            margin-top: 20px; 
+            flex-wrap: wrap; 
+        }
+        .social-rect { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            padding: 12px 25px; 
+            border-radius: 4px; 
+            text-decoration: none; 
+            color: white; 
+            font-weight: bold; 
+            font-size: 0.9rem; 
+            text-transform: uppercase; 
+            transition: 0.3s; 
+        }
         .social-rect svg { width: 20px; height: 20px; fill: white; }
         .fb-color { background: #1877F2; }
         .tt-color { background: #000; border: 1px solid #fff; }
@@ -486,10 +508,10 @@
                 <input type="email" id="login-email" placeholder="Email Address">
                 <input type="password" id="login-pass" placeholder="Password">
                 <div style="display: flex; gap: 10px;">
-                    <button id="login-submit" style="flex: 1;">Login</button>
+                    <button id="login-submit" onclick="login()">Login</button>
                     <button type="button" class="social-rect" style="background: #333; flex: 1;" onclick="showSection('home')">Save for later</button>
                 </div>
-                <p style="text-align:center; cursor:pointer" onclick="document.getElementById('login-form').classList.add('hidden'); document.getElementById('register-form').classList.remove('hidden')">New user? Register here</p>
+                <p style="text-align:center; cursor:pointer" onclick="toggleAuth(false)">New user? Register here</p>
             </div>
             <div id="register-form" class="hidden">
                 <input type="text" id="reg-name" placeholder="Full Name">
@@ -498,18 +520,43 @@
                 <input type="email" id="reg-email" placeholder="Email Address">
                 <input type="password" id="reg-pass" placeholder="Create Password">
                 <select id="reg-gov" required>
-                    <option value="" disabled selected>Select Your Governorate</option>
-                    <option value="Cairo">Cairo</option><option value="Alexandria">Alexandria</option><option value="Giza">Giza</option>
-                    <option value="Port Said">Port Said</option><option value="Suez">Suez</option><option value="Luxor">Luxor</option>
+                    <option value="" disabled selected>Select Your Governorate (اختر محافظتك)</option>
+                    <option value="Cairo">Cairo (القاهرة)</option>
+                    <option value="Alexandria">Alexandria (الإسكندرية)</option>
+                    <option value="Giza">Giza (الجيزة)</option>
+                    <option value="Qalyubia">Qalyubia (القليوبية)</option>
+                    <option value="Port Said">Port Said (بورسعيد)</option>
+                    <option value="Suez">Suez (السويس)</option>
+                    <option value="Luxor">Luxor (الأقصر)</option>
+                    <option value="Dakahlia">Dakahlia (الدقهلية)</option>
+                    <option value="Sharqia">Sharqia (الشرقية)</option>
+                    <option value="Gharbia">Gharbia (الغربية)</option>
+                    <option value="Monufia">Monufia (المنوفية)</option>
+                    <option value="Beheira">Beheira (البحيرة)</option>
+                    <option value="Ismailia">Ismailia (الإسماعيلية)</option>
+                    <option value="Beni Suef">Beni Suef (بني سويف)</option>
+                    <option value="Fayyum">Fayyum (الفيوم)</option>
+                    <option value="Minya">Minya (المنيا)</option>
+                    <option value="Asyut">Asyut (أسيوط)</option>
+                    <option value="Sohag">Sohag (سوهاج)</option>
+                    <option value="Qena">Qena (قنا)</option>
+                    <option value="Aswan">Aswan (أسوان)</option>
+                    <option value="Damietta">Damietta (دمياط)</option>
+                    <option value="Kafr El Sheikh">Kafr El Sheikh (كفر الشيخ)</option>
+                    <option value="Red Sea">Red Sea (البحر الأحمر)</option>
+                    <option value="Matrouh">Matrouh (مطروح)</option>
+                    <option value="North Sinai">North Sinai (شمال سيناء)</option>
+                    <option value="South Sinai">South Sinai (جنوب سيناء)</option>
+                    <option value="New Valley">New Valley (الوادي الجديد)</option>
                 </select>
-                <button id="register-submit" style="width: 100%;">Create Account</button>
-                <p style="text-align:center; cursor:pointer" onclick="document.getElementById('register-form').classList.add('hidden'); document.getElementById('login-form').classList.remove('hidden')">Back to Login</p>
+                <button id="register-submit" onclick="register()">Create Account</button>
+                <p style="text-align:center; cursor:pointer" onclick="toggleAuth(true)">Back to Login</p>
             </div>
         </div>
         <div id="welcome" class="hidden" style="text-align: center;">
             <h3 id="display-user-name"></h3>
             <p id="display-user-gov" style="color: #888;"></p>
-            <button id="logout-btn">Logout</button>
+            <button id="logout-btn" onclick="logout()">Logout</button>
         </div>
     </section>
 
@@ -553,6 +600,7 @@
                     <input type="hidden" name="Quantity" id="hidden-qty">
                     <input type="hidden" name="Price" id="hidden-price">
                     <input type="hidden" name="Total" id="hidden-total">
+                    <input type="hidden" name="Governorate" id="hidden-gov">
                 </div>
                 
                 <label>Car Color (لون السيارة):</label>
@@ -603,7 +651,6 @@
             window.scrollTo(0,0);
         }
 
-        // --- NEW QTY UI FUNCTION ---
         function changeQtyUI(id, amt) {
             let el = document.getElementById(id);
             let val = parseInt(el.innerText);
@@ -644,31 +691,55 @@
                 document.getElementById('auth-forms').classList.add('hidden');
                 document.getElementById('welcome').classList.remove('hidden');
                 document.getElementById('display-user-name').innerText = "Welcome, " + currentUser.name;
+                document.getElementById('display-user-gov').innerText = currentUser.gov || "";
                 document.getElementById('nav-acc-text').innerText = currentUser.name;
             }
         }
         updateUI();
 
-        document.getElementById('register-submit').onclick = () => {
-            const name = document.getElementById('reg-name').value, phone = document.getElementById('reg-phone').value,
-                  email = document.getElementById('reg-email').value, pass = document.getElementById('reg-pass').value,
-                  gov = document.getElementById('reg-gov').value, address = document.getElementById('reg-address').value;
-            if(!name || !phone || !email || !pass || !gov || !address) return alert("Please fill all fields");
-            currentUser = { name, phone, email, pass, gov, address };
-            localStorage.setItem('devilUser', JSON.stringify(currentUser));
-            updateUI(); showSection('home');
-        };
-
-        document.getElementById('login-submit').onclick = () => {
+        function login() {
             const email = document.getElementById('login-email').value;
             const pass = document.getElementById('login-pass').value;
             const saved = JSON.parse(localStorage.getItem('devilUser'));
+            
             if(saved && saved.email === email && saved.pass === pass) {
-                currentUser = saved; updateUI(); showSection('home');
-            } else alert("Invalid Credentials");
-        };
+                currentUser = saved;
+                updateUI();
+                showSection('home');
+            } else {
+                alert("Invalid Email or Password");
+            }
+        }
 
-        document.getElementById('logout-btn').onclick = () => { currentUser = null; updateUI(); showSection('home'); };
+        function register() {
+            const name = document.getElementById('reg-name').value, 
+                  phone = document.getElementById('reg-phone').value,
+                  email = document.getElementById('reg-email').value, 
+                  pass = document.getElementById('reg-pass').value,
+                  gov = document.getElementById('reg-gov').value, 
+                  address = document.getElementById('reg-address').value;
+            
+            if(!name || !phone || !email || !pass || !gov || !address) return alert("Please fill all fields");
+            
+            currentUser = { name, phone, email, pass, gov, address };
+            localStorage.setItem('devilUser', JSON.stringify(currentUser));
+            updateUI(); 
+            showSection('home');
+        }
+
+        function logout() { 
+            currentUser = null; 
+            localStorage.removeItem('devilUser');
+            document.getElementById('auth-forms').classList.remove('hidden');
+            document.getElementById('welcome').classList.add('hidden');
+            document.getElementById('nav-acc-text').innerText = "Account";
+            showSection('home'); 
+        }
+
+        function toggleAuth(isLogin) {
+            document.getElementById('login-form').classList.toggle('hidden', !isLogin);
+            document.getElementById('register-form').classList.toggle('hidden', isLogin);
+        }
 
         function filterProducts(carType) {
             document.querySelectorAll('.product').forEach(p => {
@@ -687,7 +758,6 @@
             imgs[idx].classList.add('active');
         }
 
-        // --- UPDATED ADD TO CART FUNCTION ---
         function initAddToCart(id, name, price, qtyId) {
             const selectedQty = parseInt(document.getElementById(qtyId).innerText);
             let existing = cart.find(i => i.name === name);
@@ -726,6 +796,7 @@
             document.getElementById('hidden-name').value = currentUser.name;
             document.getElementById('hidden-phone').value = currentUser.phone;
             document.getElementById('hidden-address').value = currentUser.address;
+            document.getElementById('hidden-gov').value = currentUser.gov;
             document.getElementById('hidden-product').value = cart.map(i => i.name).join(", ");
             document.getElementById('hidden-qty').value = cart.map(i => i.quantity).join(", ");
             document.getElementById('hidden-price').value = cart.map(i => i.price).join(", ");
@@ -766,3 +837,4 @@
     </script>
 </body>
 </html>
+
