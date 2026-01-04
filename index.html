@@ -54,6 +54,7 @@
 
         button { background: var(--primary-red); color: white; border: none; padding: 12px 20px; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 4px; transition: 0.3s; }
         button:hover { background: var(--dark-red); }
+        button:disabled { background: #555; cursor: not-allowed; }
 
         .qty-controls { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
         .qty-btn { background: #444; padding: 5px 12px; border-radius: 4px; color: white; cursor: pointer; border: none; font-weight: bold; }
@@ -105,8 +106,9 @@
                 <option value="mitsubishi">Mitsubishi</option>
                 <option value="hyundai">Hyundai</option>
                 <option value="mg">MG</option>
+                <option value="kia">KIA</option>
+                <option value="peugeot">Peugeot</option>
                 <option value="golf">Golf</option>
-                <option value="seat">Seat</option>
                 <option value="general">General (Universal)</option>
             </select>
             <button onclick="document.getElementById('car-selector').dispatchEvent(new Event('change'))">Enter Shop</button>
@@ -119,9 +121,9 @@
             
             <div class="product" data-car="hyundai" id="prod-1">
                 <div class="slider-container" id="slider-1">
-                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(1, -1)">&#10094;</button>
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(1, -1)">❮</button>
                     <img src="1.jpg.jpeg" class="active"> 
-                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(1, 1)">&#10095;</button>
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(1, 1)">❯</button>
                 </div>
                 <h3>Tail lights hyundai AD SMOKE</h3>
                 <p>13,000 EGP</p>
@@ -131,9 +133,9 @@
 
             <div class="product" data-car="mitsubishi" id="prod-2">
                 <div class="slider-container" id="slider-2">
-                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(2, -1)">&#10094;</button>
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(2, -1)">❮</button>
                     <img src="2.jpeg" class="active">
-                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(2, 1)">&#10095;</button>
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(2, 1)">❯</button>
                 </div>
                 <h3>Lancer Shark LED RGB Tail Lights</h3>
                 <p>13,000 EGP</p>
@@ -143,9 +145,9 @@
 
             <div class="product" data-car="bmw" id="prod-3">
                 <div class="slider-container" id="slider-3">
-                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(3, -1)">&#10094;</button>
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(3, -1)">❮</button>
                     <img src="5.jpeg" class="active">
-                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(3, 1)">&#10095;</button>
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(3, 1)">❯</button>
                 </div>
                 <h3>Steering wheel bmw carbon fiber f30-x1-x5-x6-x4</h3>
                 <p>14,000 EGP</p>
@@ -155,22 +157,22 @@
 
             <div class="product" data-car="bmw" id="prod-4">
                 <div class="slider-container" id="slider-4">
-                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(4, -1)">&#10094;</button>
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(4, -1)">❮</button>
                     <img src="6.jpeg" class="active">
-                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(4, 1)">&#10095;</button>
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(4, 1)">❯</button>
                 </div>
                 <h3>Steering wheel bmw carbon fiber LED</h3>
                 <p>22,500 EGP</p>
                 <div class="qty-controls hidden" id="controls-4"><button class="qty-btn" onclick="updateMainQty(4, -1)">-</button><span id="main-qty-4">0</span><button class="qty-btn" onclick="updateMainQty(4, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-4" onclick="initAddToCart(4, 'Steering wheel bmw LED', 2250)">Add to Cart</button>
+                <button class="add-to-cart" id="btn-4" onclick="initAddToCart(4, 'Steering wheel bmw LED', 22500)">Add to Cart</button>
             </div>
 
             <div class="product" data-car="golf" id="prod-5">
                 <div class="slider-container" id="slider-5">
-                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(5, -1)">&#10094;</button>
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(5, -1)">❮</button>
                     <img src="7.jpeg" class="active">
                     <img src="77.jpeg">
-                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(5, 1)">&#10095;</button>
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(5, 1)">❯</button>
                 </div>
                 <h3>Kit golf 7 R line</h3>
                 <p>16,500 EGP</p>
@@ -180,9 +182,9 @@
 
             <div class="product" data-car="general" id="prod-6">
                 <div class="slider-container" id="slider-6">
-                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(6, -1)">&#10094;</button>
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(6, -1)">❮</button>
                     <img src="8.jpeg" class="active">
-                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(6, 1)">&#10095;</button>
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(6, 1)">❯</button>
                 </div>
                 <h3>Forged carbon fiber exhaust tip akrapovic</h3>
                 <p>1,350 EGP</p>
@@ -192,9 +194,9 @@
 
             <div class="product" data-car="general" id="prod-7">
                 <div class="slider-container" id="slider-7">
-                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(7, -1)">&#10094;</button>
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(7, -1)">❮</button>
                     <img src="9.jpeg" class="active">
-                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(7, 1)">&#10095;</button>
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(7, 1)">❯</button>
                 </div>
                 <h3>Carbon fiber akrapovic exhaust tip</h3>
                 <p>1,350 EGP</p>
@@ -204,9 +206,9 @@
 
             <div class="product" data-car="general" id="prod-8">
                 <div class="slider-container" id="slider-8">
-                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(8, -1)">&#10094;</button>
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(8, -1)">❮</button>
                     <img src="3.jpeg" class="active">
-                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(8, 1)">&#10095;</button>
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(8, 1)">❯</button>
                 </div>
                 <h3>brembo brakes cover metal</h3>
                 <p>700 EGP</p>
@@ -216,9 +218,9 @@
 
             <div class="product" data-car="bmw" id="prod-9">
                 <div class="slider-container" id="slider-9">
-                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(9, -1)">&#10094;</button>
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(9, -1)">❮</button>
                     <img src="10.jpeg" class="active">
-                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(9, 1)">&#10095;</button>
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(9, 1)">❯</button>
                 </div>
                 <h3>Bmw key cover metal</h3>
                 <p>450 EGP</p>
@@ -228,15 +230,124 @@
 
             <div class="product" data-car="bmw" id="prod-10">
                 <div class="slider-container" id="slider-10">
-                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(10, -1)">&#10094;</button>
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(10, -1)">❮</button>
                     <img src="11.jpeg" class="active">
-                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(10, 1)">&#10095;</button>
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(10, 1)">❯</button>
                 </div>
                 <h3>paddle shifter steering wheel bmw</h3>
                 <p>700 EGP</p>
                 <div class="qty-controls hidden" id="controls-10"><button class="qty-btn" onclick="updateMainQty(10, -1)">-</button><span id="main-qty-10">0</span><button class="qty-btn" onclick="updateMainQty(10, 1)">+</button></div>
                 <button class="add-to-cart" id="btn-10" onclick="initAddToCart(10, 'paddle shifter bmw', 700)">Add to Cart</button>
             </div>
+
+            <div class="product" data-car="bmw" id="prod-11">
+                <div class="slider-container" id="slider-11">
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(11, -1)">❮</button>
+                    <img src="12.jpeg" class="active">
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(11, 1)">❯</button>
+                </div>
+                <h3>BMW KIT M4</h3>
+                <p>10,000 EGP</p>
+                <div class="qty-controls hidden" id="controls-11"><button class="qty-btn" onclick="updateMainQty(11, -1)">-</button><span id="main-qty-11">0</span><button class="qty-btn" onclick="updateMainQty(11, 1)">+</button></div>
+                <button class="add-to-cart" id="btn-11" onclick="initAddToCart(11, 'BMW KIT M4', 10000)">Add to Cart</button>
+            </div>
+
+            <div class="product" data-car="bmw" id="prod-12">
+                <div class="slider-container" id="slider-12">
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(12, -1)">❮</button>
+                    <img src="13.jpeg" class="active">
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(12, 1)">❯</button>
+                </div>
+                <h3>Tail lights GTS bmw smoke</h3>
+                <p>13,500 EGP</p>
+                <div class="qty-controls hidden" id="controls-12"><button class="qty-btn" onclick="updateMainQty(12, -1)">-</button><span id="main-qty-12">0</span><button class="qty-btn" onclick="updateMainQty(12, 1)">+</button></div>
+                <button class="add-to-cart" id="btn-12" onclick="initAddToCart(12, 'Tail lights GTS bmw smoke', 13500)">Add to Cart</button>
+            </div>
+
+            <div class="product" data-car="bmw" id="prod-13">
+                <div class="slider-container" id="slider-13">
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(13, -1)">❮</button>
+                    <img src="14.jpeg" class="active">
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(13, 1)">❯</button>
+                </div>
+                <h3>Bmw M3 badge</h3>
+                <p>200 EGP</p>
+                <div class="qty-controls hidden" id="controls-13"><button class="qty-btn" onclick="updateMainQty(13, -1)">-</button><span id="main-qty-13">0</span><button class="qty-btn" onclick="updateMainQty(13, 1)">+</button></div>
+                <button class="add-to-cart" id="btn-13" onclick="initAddToCart(13, 'Bmw M3 badge', 200)">Add to Cart</button>
+            </div>
+
+            <div class="product" data-car="kia" id="prod-14">
+                <div class="slider-container" id="slider-14">
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(14, -1)">❮</button>
+                    <img src="15.jpeg" class="active">
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(14, 1)">❯</button>
+                </div>
+                <h3>Tail lights KIA cerato 40 smoke</h3>
+                <p>10,400 EGP</p>
+                <div class="qty-controls hidden" id="controls-14"><button class="qty-btn" onclick="updateMainQty(14, -1)">-</button><span id="main-qty-14">0</span><button class="qty-btn" onclick="updateMainQty(14, 1)">+</button></div>
+                <button class="add-to-cart" id="btn-14" onclick="initAddToCart(14, 'Tail lights KIA cerato 40 smoke', 10400)">Add to Cart</button>
+            </div>
+
+            <div class="product" data-car="peugeot" id="prod-15">
+                <div class="slider-container" id="slider-15">
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(15, -1)">❮</button>
+                    <img src="16.jpeg" class="active">
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(15, 1)">❯</button>
+                </div>
+                <h3>4pcs car door metal Peugeot 301</h3>
+                <p>650 EGP</p>
+                <div class="qty-controls hidden" id="controls-15"><button class="qty-btn" onclick="updateMainQty(15, -1)">-</button><span id="main-qty-15">0</span><button class="qty-btn" onclick="updateMainQty(15, 1)">+</button></div>
+                <button class="add-to-cart" id="btn-15" onclick="initAddToCart(15, 'Peugeot 301 door metal', 650)">Add to Cart</button>
+            </div>
+
+            <div class="product" data-car="mg" id="prod-16">
+                <div class="slider-container" id="slider-16">
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(16, -1)">❮</button>
+                    <img src="17.jpeg" class="active">
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(16, 1)">❯</button>
+                </div>
+                <h3>Front lip MG 7</h3>
+                <p>2,400 EGP</p>
+                <div class="qty-controls hidden" id="controls-16"><button class="qty-btn" onclick="updateMainQty(16, -1)">-</button><span id="main-qty-16">0</span><button class="qty-btn" onclick="updateMainQty(16, 1)">+</button></div>
+                <button class="add-to-cart" id="btn-16" onclick="initAddToCart(16, 'Front lip MG 7', 2400)">Add to Cart</button>
+            </div>
+
+            <div class="product" data-car="mg" id="prod-17">
+                <div class="slider-container" id="slider-17">
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(17, -1)">❮</button>
+                    <img src="18.jpeg" class="active">
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(17, 1)">❯</button>
+                </div>
+                <h3>Black mirror bat man style MG7</h3>
+                <p>1,300 EGP</p>
+                <div class="qty-controls hidden" id="controls-17"><button class="qty-btn" onclick="updateMainQty(17, -1)">-</button><span id="main-qty-17">0</span><button class="qty-btn" onclick="updateMainQty(17, 1)">+</button></div>
+                <button class="add-to-cart" id="btn-17" onclick="initAddToCart(17, 'MG7 batman mirror', 1300)">Add to Cart</button>
+            </div>
+
+            <div class="product" data-car="toyota" id="prod-18">
+                <div class="slider-container" id="slider-18">
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(18, -1)">❮</button>
+                    <img src="19.jpeg" class="active">
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(18, 1)">❯</button>
+                </div>
+                <h3>Tail lights Toyota corolla 2020/2025</h3>
+                <p>13,400 EGP</p>
+                <div class="qty-controls hidden" id="controls-18"><button class="qty-btn" onclick="updateMainQty(18, -1)">-</button><span id="main-qty-18">0</span><button class="qty-btn" onclick="updateMainQty(18, 1)">+</button></div>
+                <button class="add-to-cart" id="btn-18" onclick="initAddToCart(18, 'Toyota corolla tail lights', 13400)">Add to Cart</button>
+            </div>
+
+            <div class="product" data-car="bmw" id="prod-19">
+                <div class="slider-container" id="slider-19">
+                    <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(19, -1)">❮</button>
+                    <img src="20.jpeg" class="active">
+                    <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(19, 1)">❯</button>
+                </div>
+                <h3>Tail lights GTS bmw</h3>
+                <p>13,600 EGP</p>
+                <div class="qty-controls hidden" id="controls-19"><button class="qty-btn" onclick="updateMainQty(19, -1)">-</button><span id="main-qty-19">0</span><button class="qty-btn" onclick="updateMainQty(19, 1)">+</button></div>
+                <button class="add-to-cart" id="btn-19" onclick="initAddToCart(19, 'Tail lights GTS bmw', 13600)">Add to Cart</button>
+            </div>
+
         </div>
     </section>
 
@@ -255,6 +366,7 @@
             <div id="register-form" class="hidden">
                 <input type="text" id="reg-name" placeholder="Full Name">
                 <input type="text" id="reg-phone" placeholder="Phone Number">
+                <input type="text" id="reg-address" placeholder="Address (العنوان بالتفصيل)">
                 <input type="email" id="reg-email" placeholder="Email Address">
                 <input type="password" id="reg-pass" placeholder="Create Password">
                 <select id="reg-gov" required>
@@ -262,7 +374,6 @@
                     <option value="Cairo">Cairo</option><option value="Alexandria">Alexandria</option><option value="Giza">Giza</option>
                     <option value="Port Said">Port Said</option><option value="Suez">Suez</option><option value="Luxor">Luxor</option>
                 </select>
-                <input type="text" id="reg-loc-addr" placeholder="Detailed Address">
                 <button id="register-submit" style="width: 100%;">Create Account</button>
                 <p style="text-align:center; cursor:pointer" onclick="document.getElementById('register-form').classList.add('hidden'); document.getElementById('login-form').classList.remove('hidden')">Back to Login</p>
             </div>
@@ -283,7 +394,7 @@
         <div class="social-container">
             <a href="https://www.facebook.com/share/1GrUHcmbBb/" target="_blank" class="social-rect fb-color"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>Facebook</a>
             <a href="https://www.tiktok.com/@devil.store5" target="_blank" class="social-rect tt-color"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.06-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.27 1.77-.21.98.05 2.03.73 2.79.62.7 1.51 1.1 2.42 1.1 1.25-.01 2.38-.83 2.77-2.01.14-.33.18-.68.18-1.03l.01-13.23z"/></svg>TikTok</a>
-            <a href="https://www.instagram.com/devil.store911/" target="_blank" class="social-rect ig-color"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.56.216.96.474 1.38.894.42.42.678.82.894 1.38.163.422.358 1.057.412 2.227.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.249 1.805-.412 2.227-.216.56-.474.96-.894 1.38-.42.42-.82.678-1.38.894-.422.163-1.057.358-2.227.412-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.805-.249-2.227-.412-.56-.216-.96-.474-1.38-.894-.42-.42-.678-.82-.894-1.38-.163-.422-.358-1.057-.412-2.227-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.054-1.17.249-1.805.412-2.227.216-.56.474-.96.894-1.38.42-.42.82-.678 1.38-.894.422-.163 1.057-.358 2.227-.412 1.266-.058 1.646-.07 4.85-.07zM12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.741 0 12s.014 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126s1.078 1.079 1.866 1.384c.765.297 1.636.499 2.913.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384s1.079-1.078 1.384-1.866c.297-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.014-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Instagram</a>
+            <a href="https://www.instagram.com/devil.store911/" target="_blank" class="social-rect ig-color"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.56.216.96.474 1.38.894.42.42.678.82.894 1.38.163.422.358 1.057.412 2.227.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.249 1.805-.412 2.227-.216.56-.474.96-.894 1.38-.42.42-.82.678 1.38-.894-.422.163-1.057.358-2.227.412-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.805-.249-2.227-.412-.56-.216-.96-.474-1.38-.894-.42-.42-.678-.82-.894-1.38-.163-.422-.358-1.057-.412-2.227-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.054-1.17.249-1.805.412-2.227.216-.56.474-.96.894-1.38.42-.42.82-.678 1.38-.894.422-.163 1.057-.358 2.227-.412 1.266-.058 1.646-.07 4.85-.07zM12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.741 0 12s.014 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126s1.078 1.079 1.866 1.384c.765.297 1.636.499 2.913.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384s1.079-1.078 1.384-1.866c.297-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.014-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Instagram</a>
         </div>
     </section>
 
@@ -292,14 +403,16 @@
     <div id="confirm-modal" class="modal-overlay">
         <div class="modal-content">
             <h2>Complete Your Order</h2>
-            <form id="order-form" action="https://formspree.io/f/maqnjkyl" method="POST">
+            <form id="order-form">
                 <div class="confirm-box">
                     <p>Total: <span id="conf-total-display"></span> EGP</p>
-                    <input type="hidden" name="Customer Name" id="hidden-name">
+                    <input type="hidden" name="Name" id="hidden-name">
                     <input type="hidden" name="Phone" id="hidden-phone">
-                    <input type="hidden" name="Location" id="hidden-gov">
-                    <input type="hidden" name="Cart Items" id="hidden-cart">
-                    <input type="hidden" name="Total Price" id="hidden-total">
+                    <input type="hidden" name="Address" id="hidden-address">
+                    <input type="hidden" name="Product" id="hidden-product">
+                    <input type="hidden" name="Quantity" id="hidden-qty">
+                    <input type="hidden" name="Price" id="hidden-price">
+                    <input type="hidden" name="Total" id="hidden-total">
                 </div>
                 
                 <label>Car Color (لون السيارة):</label>
@@ -327,9 +440,9 @@
                 </div>
 
                 <label>Any Comments?</label>
-                <textarea name="Comments" placeholder="Write your notes..."></textarea>
+                <textarea name="Notes" id="order-notes" placeholder="Write your notes..."></textarea>
 
-                <button type="submit" style="width: 100%; margin-top: 15px;">place your Order</button>
+                <button type="submit" id="final-submit-btn" style="width: 100%; margin-top: 15px;">place your Order</button>
             </form>
             <button id="cancel-confirm-btn" style="width:100%; background:#333; margin-top:10px;">Cancel</button>
         </div>
@@ -338,6 +451,7 @@
     <footer><p>© 2026 Devil Store Egypt.</p></footer>
 
     <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxOeR3Rg0c6UBKKVEWdSeAZctKALykHf2QH5uHBwDpUUcMo0F8oRKdg7QZ59OJmf4UpqA/exec';
         const sections = document.querySelectorAll('section');
         let currentUser = JSON.parse(localStorage.getItem('devilUser')) || null;
         let cart = [];
@@ -376,9 +490,9 @@
         document.getElementById('register-submit').onclick = () => {
             const name = document.getElementById('reg-name').value, phone = document.getElementById('reg-phone').value,
                   email = document.getElementById('reg-email').value, pass = document.getElementById('reg-pass').value,
-                  gov = document.getElementById('reg-gov').value;
-            if(!name || !phone || !email || !pass || !gov) return alert("Please fill all fields");
-            currentUser = { name, phone, email, pass, gov };
+                  gov = document.getElementById('reg-gov').value, address = document.getElementById('reg-address').value;
+            if(!name || !phone || !email || !pass || !gov || !address) return alert("Please fill all fields");
+            currentUser = { name, phone, email, pass, gov, address };
             localStorage.setItem('devilUser', JSON.stringify(currentUser));
             updateUI(); showSection('home');
         };
@@ -448,15 +562,52 @@
             if(!currentUser) { alert("Please Login First"); return showSection('registration'); }
             if(cart.length === 0) return alert("Cart is empty");
             
-            document.getElementById('conf-total-display').innerText = document.getElementById('cart-total').innerText;
+            const total = cart.reduce((a,b) => a + (b.price * b.quantity), 0);
+            document.getElementById('conf-total-display').innerText = total.toLocaleString();
+            
+            const productNames = cart.map(i => i.name).join(", ");
+            const productQtys = cart.map(i => i.quantity).join(", ");
+            const productPrices = cart.map(i => i.price).join(", ");
+
             document.getElementById('hidden-name').value = currentUser.name;
             document.getElementById('hidden-phone').value = currentUser.phone;
-            document.getElementById('hidden-gov').value = currentUser.gov;
-            document.getElementById('hidden-cart').value = cart.map(i => `${i.name} (x${i.quantity})`).join(", ");
-            document.getElementById('hidden-total').value = document.getElementById('cart-total').innerText + " EGP";
+            document.getElementById('hidden-address').value = currentUser.address;
+            document.getElementById('hidden-product').value = productNames;
+            document.getElementById('hidden-qty').value = productQtys;
+            document.getElementById('hidden-price').value = productPrices;
+            document.getElementById('hidden-total').value = total.toLocaleString() + " EGP";
+            
+            // إضافة إيميل المستخدم لكي يصل إليه رقم الأوردر
+            const emailInput = document.createElement('input');
+            emailInput.type = 'hidden';
+            emailInput.name = 'Email';
+            emailInput.value = currentUser.email;
+            document.getElementById('order-form').appendChild(emailInput);
             
             document.getElementById('cart-modal').style.display = 'none';
             document.getElementById('confirm-modal').style.display = 'flex';
+        };
+
+        document.getElementById('order-form').onsubmit = function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('final-submit-btn');
+            btn.disabled = true;
+            btn.innerText = "Sending Order...";
+
+            const fullData = new FormData(this);
+
+            fetch(scriptURL, { method: 'POST', body: fullData})
+            .then(res => {
+                alert("Order Placed Successfully!");
+                cart = [];
+                updateCartBadge();
+                location.reload();
+            })
+            .catch(err => {
+                alert("Error sending order. Please try again.");
+                btn.disabled = false;
+                btn.innerText = "Confirm Order";
+            });
         };
 
         document.getElementById('close-cart').onclick = () => document.getElementById('cart-modal').style.display = 'none';
