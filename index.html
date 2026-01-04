@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Devil Store - Premium Car Accessories</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --primary-red: #cc0000;
@@ -31,26 +32,63 @@
 
         h2 { border-left: 5px solid var(--primary-red); padding-left: 15px; text-transform: uppercase; margin-bottom: 30px; }
 
+        .cart-floating {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: var(--primary-red);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(204, 0, 0, 0.4);
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: white;
+            color: var(--primary-red);
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 5000;
+            justify-content: center;
+            align-items: center;
+        }
+        .image-overlay img { max-width: 90%; max-height: 90%; border: 2px solid var(--primary-red); }
+        .close-overlay { position: absolute; top: 20px; right: 30px; color: white; font-size: 40px; cursor: pointer; }
+
         .wa-fixed { position: fixed; bottom: 20px; right: 20px; background: var(--whatsapp-green); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; z-index: 3000; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         .wa-fixed svg { fill: white; width: 30px; height: 30px; }
 
         .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
         .product.car-hidden { display: none; }
         .product { background: var(--card-gray); border: 1px solid #333; border-radius: 8px; overflow: hidden; transition: 0.3s; text-align: center; padding-bottom: 20px; position: relative; }
-        .product:hover { transform: translateY(-10px); border-color: var(--primary-red); box-shadow: 0 10px 20px rgba(204, 0, 0, 0.2); }
+        .product img { cursor: pointer; }
 
         .slider-container { position: relative; width: 100%; height: 200px; background: #000; overflow: hidden; }
         .slider-container img { width: 100%; height: 100%; object-fit: cover; display: none; }
         .slider-container img.active { display: block; }
         .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px 5px; cursor: pointer; font-weight: bold; z-index: 5; font-size: 18px; }
-        .slider-btn:hover { background: var(--primary-red); }
-
-        .social-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
-        .social-rect { display: flex; align-items: center; gap: 10px; padding: 12px 25px; border-radius: 4px; text-decoration: none; color: white; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; transition: 0.3s; }
-        .social-rect svg { width: 20px; height: 20px; fill: white; }
-        .fb-color { background: #1877F2; }
-        .tt-color { background: #000; border: 1px solid #fff; }
-        .ig-color { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
 
         button { background: var(--primary-red); color: white; border: none; padding: 12px 20px; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 4px; transition: 0.3s; }
         button:hover { background: var(--dark-red); }
@@ -66,14 +104,30 @@
         .cart-item { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding: 10px 0; }
         
         .confirm-box { background: #222; padding: 15px; border-radius: 8px; margin: 15px 0; border: 1px solid #444; }
-        .confirm-box span { color: var(--primary-red); font-weight: bold; }
-
         footer { background: #000; text-align: center; padding: 40px; border-top: 1px solid #222; color: #555; }
         .hidden { display: none; }
         .wallet-details { background: #222; padding: 10px; border: 1px solid #444; margin-top: 10px; border-radius: 5px; }
+
+        .social-container { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
+        .social-rect { display: flex; align-items: center; gap: 10px; padding: 12px 25px; border-radius: 4px; text-decoration: none; color: white; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; transition: 0.3s; }
+        .social-rect svg { width: 20px; height: 20px; fill: white; }
+        .fb-color { background: #1877F2; }
+        .tt-color { background: #000; border: 1px solid #fff; }
+        .ig-color { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
+
     </style>
 </head>
 <body>
+
+    <a href="javascript:void(0)" class="cart-floating" id="floating-cart-btn">
+        <i class="fas fa-shopping-basket" style="color: white; font-size: 24px;"></i>
+        <div class="cart-count" id="cart-badge">0</div>
+    </a>
+
+    <div class="image-overlay" id="img-overlay">
+        <span class="close-overlay" onclick="closeImage()">&times;</span>
+        <img id="expanded-img">
+    </div>
 
     <a href="https://wa.me/201030309098" target="_blank" class="wa-fixed">
         <svg viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.4 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-5.5-2.8-23.4-8.6-44.6-27.4-16.5-14.7-27.6-32.8-30.8-38.5-3.2-5.6-.3-8.6 2.5-11.4 2.5-2.5 5.5-6.5 8.3-9.8 2.8-3.3 3.7-5.6 5.5-9.3 1.9-3.7.9-6.9-.5-9.8-1.4-2.8-12.4-29.8-17-40.7-4.5-10.7-9-9.2-12.4-9.4h-10.6c-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 13.2 5.8 23.5 9.2 31.5 11.8 10.6 3.4 20.2 2.9 27.8 1.7 8.4-1.2 25.8-10.5 29.4-20.7 3.7-10.2 3.7-19 2.6-20.8-1.1-1.9-4.2-2.8-9.7-5.7z"/></svg>
@@ -85,7 +139,6 @@
             <a href="#products" class="nav-link" data-section="products" onclick="filterProducts('all')">Shop</a>
             <a href="#contact" class="nav-link" data-section="contact">Contact</a>
             <a href="#registration" class="nav-link" data-section="registration" id="nav-acc-text">Account</a>
-            <a href="#cart" id="view-cart-link" style="color: var(--primary-red);">Cart (0)</a>
         </div>
     </nav>
 
@@ -102,7 +155,6 @@
                 <option value="all">All Cars (كل السيارات)</option>
                 <option value="bmw">BMW</option>
                 <option value="toyota">Toyota</option>
-                <option value="mercedes">Mercedes</option>
                 <option value="mitsubishi">Mitsubishi</option>
                 <option value="hyundai">Hyundai</option>
                 <option value="mg">MG</option>
@@ -122,230 +174,306 @@
             <div class="product" data-car="hyundai" id="prod-1">
                 <div class="slider-container" id="slider-1">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(1, -1)">❮</button>
-                    <img src="1.jpg.jpeg" class="active"> 
+                    <img src="1.jpg.jpeg" class="active" onclick="openImage(this.src)"> 
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(1, 1)">❯</button>
                 </div>
                 <h3>Tail lights hyundai AD SMOKE</h3>
                 <p>13,000 EGP</p>
-                <div class="qty-controls hidden" id="controls-1"><button class="qty-btn" onclick="updateMainQty(1, -1)">-</button><span id="main-qty-1">0</span><button class="qty-btn" onclick="updateMainQty(1, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-1" onclick="initAddToCart(1, 'Tail lights hyundai AD SMOKE', 13000)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q1', -1)">-</button>
+                    <span id="q1" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q1', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-1" onclick="initAddToCart(1, 'Tail lights hyundai AD SMOKE', 13000, 'q1')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="mitsubishi" id="prod-2">
                 <div class="slider-container" id="slider-2">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(2, -1)">❮</button>
-                    <img src="2.jpeg" class="active">
+                    <img src="2.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(2, 1)">❯</button>
                 </div>
                 <h3>Lancer Shark LED RGB Tail Lights</h3>
                 <p>13,000 EGP</p>
-                <div class="qty-controls hidden" id="controls-2"><button class="qty-btn" onclick="updateMainQty(2, -1)">-</button><span id="main-qty-2">0</span><button class="qty-btn" onclick="updateMainQty(2, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-2" onclick="initAddToCart(2, 'Lancer Shark LED RGB Tail Lights', 13000)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q2', -1)">-</button>
+                    <span id="q2" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q2', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-2" onclick="initAddToCart(2, 'Lancer Shark LED RGB Tail Lights', 13000, 'q2')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="bmw" id="prod-3">
                 <div class="slider-container" id="slider-3">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(3, -1)">❮</button>
-                    <img src="5.jpeg" class="active">
+                    <img src="5.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(3, 1)">❯</button>
                 </div>
                 <h3>Steering wheel bmw carbon fiber f30-x1-x5-x6-x4</h3>
                 <p>14,000 EGP</p>
-                <div class="qty-controls hidden" id="controls-3"><button class="qty-btn" onclick="updateMainQty(3, -1)">-</button><span id="main-qty-3">0</span><button class="qty-btn" onclick="updateMainQty(3, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-3" onclick="initAddToCart(3, 'Steering wheel bmw carbon fiber', 14000)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q3', -1)">-</button>
+                    <span id="q3" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q3', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-3" onclick="initAddToCart(3, 'Steering wheel bmw carbon fiber', 14000, 'q3')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="bmw" id="prod-4">
                 <div class="slider-container" id="slider-4">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(4, -1)">❮</button>
-                    <img src="6.jpeg" class="active">
+                    <img src="6.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(4, 1)">❯</button>
                 </div>
                 <h3>Steering wheel bmw carbon fiber LED</h3>
                 <p>22,500 EGP</p>
-                <div class="qty-controls hidden" id="controls-4"><button class="qty-btn" onclick="updateMainQty(4, -1)">-</button><span id="main-qty-4">0</span><button class="qty-btn" onclick="updateMainQty(4, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-4" onclick="initAddToCart(4, 'Steering wheel bmw LED', 22500)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q4', -1)">-</button>
+                    <span id="q4" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q4', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-4" onclick="initAddToCart(4, 'Steering wheel bmw LED', 22500, 'q4')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="golf" id="prod-5">
                 <div class="slider-container" id="slider-5">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(5, -1)">❮</button>
-                    <img src="7.jpeg" class="active">
-                    <img src="77.jpeg">
+                    <img src="7.jpeg" class="active" onclick="openImage(this.src)">
+                    <img src="77.jpeg" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(5, 1)">❯</button>
                 </div>
                 <h3>Kit golf 7 R line</h3>
                 <p>16,500 EGP</p>
-                <div class="qty-controls hidden" id="controls-5"><button class="qty-btn" onclick="updateMainQty(5, -1)">-</button><span id="main-qty-5">0</span><button class="qty-btn" onclick="updateMainQty(5, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-5" onclick="initAddToCart(5, 'Kit golf 7 R line', 16500)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q5', -1)">-</button>
+                    <span id="q5" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q5', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-5" onclick="initAddToCart(5, 'Kit golf 7 R line', 16500, 'q5')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="general" id="prod-6">
                 <div class="slider-container" id="slider-6">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(6, -1)">❮</button>
-                    <img src="8.jpeg" class="active">
+                    <img src="8.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(6, 1)">❯</button>
                 </div>
                 <h3>Forged carbon fiber exhaust tip akrapovic</h3>
                 <p>1,350 EGP</p>
-                <div class="qty-controls hidden" id="controls-6"><button class="qty-btn" onclick="updateMainQty(6, -1)">-</button><span id="main-qty-6">0</span><button class="qty-btn" onclick="updateMainQty(6, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-6" onclick="initAddToCart(6, 'Forged carbon tip', 1350)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q6', -1)">-</button>
+                    <span id="q6" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q6', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-6" onclick="initAddToCart(6, 'Forged carbon tip', 1350, 'q6')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="general" id="prod-7">
                 <div class="slider-container" id="slider-7">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(7, -1)">❮</button>
-                    <img src="9.jpeg" class="active">
+                    <img src="9.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(7, 1)">❯</button>
                 </div>
                 <h3>Carbon fiber akrapovic exhaust tip</h3>
                 <p>1,350 EGP</p>
-                <div class="qty-controls hidden" id="controls-7"><button class="qty-btn" onclick="updateMainQty(7, -1)">-</button><span id="main-qty-7">0</span><button class="qty-btn" onclick="updateMainQty(7, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-7" onclick="initAddToCart(7, 'Carbon akrapovic tip', 1350)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q7', -1)">-</button>
+                    <span id="q7" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q7', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-7" onclick="initAddToCart(7, 'Carbon akrapovic tip', 1350, 'q7')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="general" id="prod-8">
                 <div class="slider-container" id="slider-8">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(8, -1)">❮</button>
-                    <img src="3.jpeg" class="active">
+                    <img src="3.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(8, 1)">❯</button>
                 </div>
                 <h3>brembo brakes cover metal</h3>
                 <p>700 EGP</p>
-                <div class="qty-controls hidden" id="controls-8"><button class="qty-btn" onclick="updateMainQty(8, -1)">-</button><span id="main-qty-8">0</span><button class="qty-btn" onclick="updateMainQty(8, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-8" onclick="initAddToCart(8, 'brembo brakes cover', 700)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q8', -1)">-</button>
+                    <span id="q8" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q8', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-8" onclick="initAddToCart(8, 'brembo brakes cover', 700, 'q8')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="bmw" id="prod-9">
                 <div class="slider-container" id="slider-9">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(9, -1)">❮</button>
-                    <img src="10.jpeg" class="active">
+                    <img src="10.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(9, 1)">❯</button>
                 </div>
                 <h3>Bmw key cover metal</h3>
                 <p>450 EGP</p>
-                <div class="qty-controls hidden" id="controls-9"><button class="qty-btn" onclick="updateMainQty(9, -1)">-</button><span id="main-qty-9">0</span><button class="qty-btn" onclick="updateMainQty(9, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-9" onclick="initAddToCart(9, 'Bmw key cover', 450)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q9', -1)">-</button>
+                    <span id="q9" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q9', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-9" onclick="initAddToCart(9, 'Bmw key cover', 450, 'q9')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="bmw" id="prod-10">
                 <div class="slider-container" id="slider-10">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(10, -1)">❮</button>
-                    <img src="11.jpeg" class="active">
+                    <img src="11.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(10, 1)">❯</button>
                 </div>
                 <h3>paddle shifter steering wheel bmw</h3>
                 <p>700 EGP</p>
-                <div class="qty-controls hidden" id="controls-10"><button class="qty-btn" onclick="updateMainQty(10, -1)">-</button><span id="main-qty-10">0</span><button class="qty-btn" onclick="updateMainQty(10, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-10" onclick="initAddToCart(10, 'paddle shifter bmw', 700)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q10', -1)">-</button>
+                    <span id="q10" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q10', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-10" onclick="initAddToCart(10, 'paddle shifter bmw', 700, 'q10')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="bmw" id="prod-11">
                 <div class="slider-container" id="slider-11">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(11, -1)">❮</button>
-                    <img src="12.jpeg" class="active">
+                    <img src="12.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(11, 1)">❯</button>
                 </div>
                 <h3>BMW KIT M4</h3>
                 <p>10,000 EGP</p>
-                <div class="qty-controls hidden" id="controls-11"><button class="qty-btn" onclick="updateMainQty(11, -1)">-</button><span id="main-qty-11">0</span><button class="qty-btn" onclick="updateMainQty(11, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-11" onclick="initAddToCart(11, 'BMW KIT M4', 10000)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q11', -1)">-</button>
+                    <span id="q11" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q11', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-11" onclick="initAddToCart(11, 'BMW KIT M4', 10000, 'q11')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="bmw" id="prod-12">
                 <div class="slider-container" id="slider-12">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(12, -1)">❮</button>
-                    <img src="13.jpeg" class="active">
+                    <img src="13.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(12, 1)">❯</button>
                 </div>
                 <h3>Tail lights GTS bmw smoke</h3>
                 <p>13,500 EGP</p>
-                <div class="qty-controls hidden" id="controls-12"><button class="qty-btn" onclick="updateMainQty(12, -1)">-</button><span id="main-qty-12">0</span><button class="qty-btn" onclick="updateMainQty(12, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-12" onclick="initAddToCart(12, 'Tail lights GTS bmw smoke', 13500)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q12', -1)">-</button>
+                    <span id="q12" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q12', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-12" onclick="initAddToCart(12, 'Tail lights GTS bmw smoke', 13500, 'q12')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="bmw" id="prod-13">
                 <div class="slider-container" id="slider-13">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(13, -1)">❮</button>
-                    <img src="14.jpeg" class="active">
+                    <img src="14.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(13, 1)">❯</button>
                 </div>
                 <h3>Bmw M3 badge</h3>
                 <p>200 EGP</p>
-                <div class="qty-controls hidden" id="controls-13"><button class="qty-btn" onclick="updateMainQty(13, -1)">-</button><span id="main-qty-13">0</span><button class="qty-btn" onclick="updateMainQty(13, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-13" onclick="initAddToCart(13, 'Bmw M3 badge', 200)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q13', -1)">-</button>
+                    <span id="q13" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q13', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-13" onclick="initAddToCart(13, 'Bmw M3 badge', 200, 'q13')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="kia" id="prod-14">
                 <div class="slider-container" id="slider-14">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(14, -1)">❮</button>
-                    <img src="15.jpeg" class="active">
+                    <img src="15.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(14, 1)">❯</button>
                 </div>
                 <h3>Tail lights KIA cerato 40 smoke</h3>
                 <p>10,400 EGP</p>
-                <div class="qty-controls hidden" id="controls-14"><button class="qty-btn" onclick="updateMainQty(14, -1)">-</button><span id="main-qty-14">0</span><button class="qty-btn" onclick="updateMainQty(14, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-14" onclick="initAddToCart(14, 'Tail lights KIA cerato 40 smoke', 10400)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q14', -1)">-</button>
+                    <span id="q14" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q14', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-14" onclick="initAddToCart(14, 'Tail lights KIA cerato 40 smoke', 10400, 'q14')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="peugeot" id="prod-15">
                 <div class="slider-container" id="slider-15">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(15, -1)">❮</button>
-                    <img src="16.jpeg" class="active">
+                    <img src="16.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(15, 1)">❯</button>
                 </div>
                 <h3>4pcs car door metal Peugeot 301</h3>
                 <p>650 EGP</p>
-                <div class="qty-controls hidden" id="controls-15"><button class="qty-btn" onclick="updateMainQty(15, -1)">-</button><span id="main-qty-15">0</span><button class="qty-btn" onclick="updateMainQty(15, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-15" onclick="initAddToCart(15, 'Peugeot 301 door metal', 650)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q15', -1)">-</button>
+                    <span id="q15" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q15', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-15" onclick="initAddToCart(15, 'Peugeot 301 door metal', 650, 'q15')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="mg" id="prod-16">
                 <div class="slider-container" id="slider-16">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(16, -1)">❮</button>
-                    <img src="17.jpeg" class="active">
+                    <img src="17.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(16, 1)">❯</button>
                 </div>
                 <h3>Front lip MG 7</h3>
                 <p>2,400 EGP</p>
-                <div class="qty-controls hidden" id="controls-16"><button class="qty-btn" onclick="updateMainQty(16, -1)">-</button><span id="main-qty-16">0</span><button class="qty-btn" onclick="updateMainQty(16, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-16" onclick="initAddToCart(16, 'Front lip MG 7', 2400)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q16', -1)">-</button>
+                    <span id="q16" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q16', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-16" onclick="initAddToCart(16, 'Front lip MG 7', 2400, 'q16')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="mg" id="prod-17">
                 <div class="slider-container" id="slider-17">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(17, -1)">❮</button>
-                    <img src="18.jpeg" class="active">
+                    <img src="18.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(17, 1)">❯</button>
                 </div>
                 <h3>Black mirror bat man style MG7</h3>
                 <p>1,300 EGP</p>
-                <div class="qty-controls hidden" id="controls-17"><button class="qty-btn" onclick="updateMainQty(17, -1)">-</button><span id="main-qty-17">0</span><button class="qty-btn" onclick="updateMainQty(17, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-17" onclick="initAddToCart(17, 'MG7 batman mirror', 1300)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q17', -1)">-</button>
+                    <span id="q17" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q17', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-17" onclick="initAddToCart(17, 'MG7 batman mirror', 1300, 'q17')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="toyota" id="prod-18">
                 <div class="slider-container" id="slider-18">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(18, -1)">❮</button>
-                    <img src="19.jpeg" class="active">
+                    <img src="19.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(18, 1)">❯</button>
                 </div>
                 <h3>Tail lights Toyota corolla 2020/2025</h3>
                 <p>13,400 EGP</p>
-                <div class="qty-controls hidden" id="controls-18"><button class="qty-btn" onclick="updateMainQty(18, -1)">-</button><span id="main-qty-18">0</span><button class="qty-btn" onclick="updateMainQty(18, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-18" onclick="initAddToCart(18, 'Toyota corolla tail lights', 13400)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q18', -1)">-</button>
+                    <span id="q18" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q18', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-18" onclick="initAddToCart(18, 'Toyota corolla tail lights', 13400, 'q18')">Add to Cart</button>
             </div>
 
             <div class="product" data-car="bmw" id="prod-19">
                 <div class="slider-container" id="slider-19">
                     <button class="slider-btn prev-btn" style="left:0" onclick="moveSlide(19, -1)">❮</button>
-                    <img src="20.jpeg" class="active">
+                    <img src="20.jpeg" class="active" onclick="openImage(this.src)">
                     <button class="slider-btn next-btn" style="right:0" onclick="moveSlide(19, 1)">❯</button>
                 </div>
                 <h3>Tail lights GTS bmw</h3>
                 <p>13,600 EGP</p>
-                <div class="qty-controls hidden" id="controls-19"><button class="qty-btn" onclick="updateMainQty(19, -1)">-</button><span id="main-qty-19">0</span><button class="qty-btn" onclick="updateMainQty(19, 1)">+</button></div>
-                <button class="add-to-cart" id="btn-19" onclick="initAddToCart(19, 'Tail lights GTS bmw', 13600)">Add to Cart</button>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="changeQtyUI('q19', -1)">-</button>
+                    <span id="q19" style="font-weight:bold; min-width:20px;">1</span>
+                    <button class="qty-btn" onclick="changeQtyUI('q19', 1)">+</button>
+                </div>
+                <button class="add-to-cart" id="btn-19" onclick="initAddToCart(19, 'Tail lights GTS bmw', 13600, 'q19')">Add to Cart</button>
             </div>
 
         </div>
@@ -386,17 +514,29 @@
     </section>
 
     <section id="contact">
-        <h2>Contact Us</h2>
-        <div style="text-align: center; margin-bottom: 30px;">
-            <p style="font-size: 1.2rem;">📞 <strong>Phone:</strong> 01030309098</p>
-            <p style="font-size: 1.2rem;">📧 <strong>Email:</strong> devil.store911@gmail.com</p>
-        </div>
-        <div class="social-container">
-            <a href="https://www.facebook.com/share/1GrUHcmbBb/" target="_blank" class="social-rect fb-color"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>Facebook</a>
-            <a href="https://www.tiktok.com/@devil.store5" target="_blank" class="social-rect tt-color"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.06-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.27 1.77-.21.98.05 2.03.73 2.79.62.7 1.51 1.1 2.42 1.1 1.25-.01 2.38-.83 2.77-2.01.14-.33.18-.68.18-1.03l.01-13.23z"/></svg>TikTok</a>
-            <a href="https://www.instagram.com/devil.store911/" target="_blank" class="social-rect ig-color"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.56.216.96.474 1.38.894.42.42.678.82.894 1.38.163.422.358 1.057.412 2.227.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.249 1.805-.412 2.227-.216.56-.474.96-.894 1.38-.42.42-.82.678 1.38-.894-.422.163-1.057.358-2.227.412-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.17-.054-1.805-.249-2.227-.412-.56-.216-.96-.474-1.38-.894-.42-.42-.678-.82-.894-1.38-.163-.422-.358-1.057-.412-2.227-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.054-1.17.249-1.805.412-2.227.216-.56.474-.96.894-1.38.42-.42.82-.678 1.38-.894.422-.163 1.057-.358 2.227-.412 1.266-.058 1.646-.07 4.85-.07zM12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.741 0 12s.014 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126s1.078 1.079 1.866 1.384c.765.297 1.636.499 2.913.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384s1.079-1.078 1.384-1.866c.297-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.014-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Instagram</a>
-        </div>
-    </section>
+    <h2>Contact Us</h2>
+    <div style="text-align: center; margin-bottom: 30px;">
+        <p style="font-size: 1.2rem;">📞 <strong>Phone:</strong> 01030309098</p>
+        <p style="font-size: 1.2rem;">📧 <strong>Email:</strong> devil.store911@gmail.com</p>
+    </div>
+    
+    <div class="social-container">
+        <a href="https://www.facebook.com/share/1GrUHcmbBb/" target="_blank" class="social-rect fb-color">
+            <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Facebook
+        </a>
+        
+        <a href="https://www.tiktok.com/@devil.store5" target="_blank" class="social-rect tt-color">
+            <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.06-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.27 1.77-.21.98.05 2.03.73 2.79.62.7 1.51 1.1 2.42 1.1 1.25-.01 2.38-.83 2.77-2.01.14-.33.18-.68.18-1.03l.01-13.23z"/></svg>
+            TikTok
+        </a>
+        
+        <a href="https://www.instagram.com/devil.store911/" target="_blank" class="social-rect ig-color">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.17.054 1.805.249 2.227.412.56.216.96.474 1.38.894.42.42.678.82.894 1.38.163.422.358 1.057.412 2.227.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.054 1.17-.249 1.805-.412 2.227-.216.56-.474.96-.894 1.38-.42.42-.82.678 1.38-.894-.422.163-1.057.358-2.227.412-1.266.058-1.646.07-4.85.07zM12 0C8.741 0 8.333.014 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.741 0 12s.014 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126s1.078 1.079 1.866 1.384c.765.297 1.636.499 2.913.558C8.333 23.986 8.741 24 12 24s3.667-.014 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384s1.079-1.078 1.384-1.866c.297-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.014-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            Instagram
+        </a>
+    </div>
+</section>
 
     <div id="cart-modal" class="modal-overlay"><div class="modal-content"><h2>Your Garage</h2><div id="cart-items"></div><p style="text-align: right;">Total: <span id="cart-total">0.00</span> EGP</p><button id="checkout-btn" style="width:100%">Proceed to Checkout</button><button id="close-cart" style="width:100%; background:#333; margin-top:10px;">Close</button></div></div>
     
@@ -435,8 +575,7 @@
 
                 <div id="wallet-info" class="hidden wallet-details">
                     <p style="margin:0; font-size:0.9rem">Transfer to: <strong>01030309098</strong></p>
-                    <p style="margin:0; font-size:0.8rem; color:#aaa">Accepts: Vodafone, Orange, Etisalat Cash </p>
-                    <input type="text" name="Sender Wallet Number" placeholder="Enter Your Wallet Number (رقم الراسل)">
+                    <input type="text" name="wallet" placeholder="Enter Your Wallet Number (رقم الراسل)">
                 </div>
 
                 <label>Any Comments?</label>
@@ -464,6 +603,34 @@
             window.scrollTo(0,0);
         }
 
+        // --- NEW QTY UI FUNCTION ---
+        function changeQtyUI(id, amt) {
+            let el = document.getElementById(id);
+            let val = parseInt(el.innerText);
+            val += amt;
+            if(val < 1) val = 1;
+            el.innerText = val;
+        }
+
+        document.getElementById('floating-cart-btn').onclick = (e) => {
+            e.preventDefault();
+            renderCartModal();
+            document.getElementById('cart-modal').style.display = 'flex';
+        };
+
+        function openImage(src) {
+            const overlay = document.getElementById('img-overlay');
+            const fullImg = document.getElementById('expanded-img');
+            overlay.style.display = 'flex';
+            fullImg.src = src;
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeImage() {
+            document.getElementById('img-overlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
         document.querySelectorAll('.nav-link').forEach(link => {
             link.onclick = (e) => { e.preventDefault(); showSection(link.dataset.section); }
         });
@@ -477,12 +644,7 @@
                 document.getElementById('auth-forms').classList.add('hidden');
                 document.getElementById('welcome').classList.remove('hidden');
                 document.getElementById('display-user-name').innerText = "Welcome, " + currentUser.name;
-                document.getElementById('display-user-gov').innerText = currentUser.gov;
                 document.getElementById('nav-acc-text').innerText = currentUser.name;
-            } else {
-                document.getElementById('auth-forms').classList.remove('hidden');
-                document.getElementById('welcome').classList.add('hidden');
-                document.getElementById('nav-acc-text').innerText = "Account";
             }
         }
         updateUI();
@@ -525,29 +687,26 @@
             imgs[idx].classList.add('active');
         }
 
-        function initAddToCart(id, name, price) {
-            document.getElementById(`btn-${id}`).classList.add('hidden');
-            document.getElementById(`controls-${id}`).classList.remove('hidden');
-            document.getElementById(`main-qty-${id}`).innerText = "1";
-            cart.push({id, name, price, quantity: 1});
+        // --- UPDATED ADD TO CART FUNCTION ---
+        function initAddToCart(id, name, price, qtyId) {
+            const selectedQty = parseInt(document.getElementById(qtyId).innerText);
+            let existing = cart.find(i => i.name === name);
+            if(existing) {
+                existing.quantity += selectedQty;
+            } else {
+                cart.push({id, name, price, quantity: selectedQty});
+            }
             updateCartBadge();
+            alert("Added " + selectedQty + " item(s) to Garage!");
+            document.getElementById(qtyId).innerText = "1";
         }
 
-        function updateMainQty(id, amt) {
-            let item = cart.find(i => i.id === id);
-            item.quantity += amt;
-            if(item.quantity <= 0) {
-                cart = cart.filter(i => i.id !== id);
-                document.getElementById(`controls-${id}`).classList.add('hidden');
-                document.getElementById(`btn-${id}`).classList.remove('hidden');
-            } else document.getElementById(`main-qty-${id}`).innerText = item.quantity;
-            updateCartBadge();
+        function updateCartBadge() { 
+            const count = cart.reduce((a,b)=>a+b.quantity, 0);
+            document.getElementById('cart-badge').innerText = count; 
         }
 
-        function updateCartBadge() { document.getElementById('view-cart-link').innerText = `Cart (${cart.reduce((a,b)=>a+b.quantity,0)})`; }
-
-        document.getElementById('view-cart-link').onclick = (e) => {
-            e.preventDefault();
+        function renderCartModal() {
             const list = document.getElementById('cart-items');
             list.innerHTML = ""; let total = 0;
             cart.forEach(i => {
@@ -555,8 +714,7 @@
                 list.innerHTML += `<div class="cart-item"><span>${i.name} (x${i.quantity})</span><span>${(i.price * i.quantity).toLocaleString()} EGP</span></div>`;
             });
             document.getElementById('cart-total').innerText = total.toLocaleString();
-            document.getElementById('cart-modal').style.display = 'flex';
-        };
+        }
 
         document.getElementById('checkout-btn').onclick = () => {
             if(!currentUser) { alert("Please Login First"); return showSection('registration'); }
@@ -565,24 +723,17 @@
             const total = cart.reduce((a,b) => a + (b.price * b.quantity), 0);
             document.getElementById('conf-total-display').innerText = total.toLocaleString();
             
-            const productNames = cart.map(i => i.name).join(", ");
-            const productQtys = cart.map(i => i.quantity).join(", ");
-            const productPrices = cart.map(i => i.price).join(", ");
-
             document.getElementById('hidden-name').value = currentUser.name;
             document.getElementById('hidden-phone').value = currentUser.phone;
             document.getElementById('hidden-address').value = currentUser.address;
-            document.getElementById('hidden-product').value = productNames;
-            document.getElementById('hidden-qty').value = productQtys;
-            document.getElementById('hidden-price').value = productPrices;
+            document.getElementById('hidden-product').value = cart.map(i => i.name).join(", ");
+            document.getElementById('hidden-qty').value = cart.map(i => i.quantity).join(", ");
+            document.getElementById('hidden-price').value = cart.map(i => i.price).join(", ");
             document.getElementById('hidden-total').value = total.toLocaleString() + " EGP";
             
-            // إضافة إيميل المستخدم لكي يصل إليه رقم الأوردر
-            const emailInput = document.createElement('input');
-            emailInput.type = 'hidden';
-            emailInput.name = 'Email';
-            emailInput.value = currentUser.email;
-            document.getElementById('order-form').appendChild(emailInput);
+            const emailInp = document.createElement('input');
+            emailInp.type = 'hidden'; emailInp.name = 'Email'; emailInp.value = currentUser.email;
+            document.getElementById('order-form').appendChild(emailInp);
             
             document.getElementById('cart-modal').style.display = 'none';
             document.getElementById('confirm-modal').style.display = 'flex';
@@ -594,19 +745,19 @@
             btn.disabled = true;
             btn.innerText = "Sending Order...";
 
-            const fullData = new FormData(this);
-
-            fetch(scriptURL, { method: 'POST', body: fullData})
-            .then(res => {
-                alert("Order Placed Successfully!");
-                cart = [];
-                updateCartBadge();
-                location.reload();
+            fetch(scriptURL, { method: 'POST', body: new FormData(this)})
+            .then(res => res.json())
+            .then(data => {
+                if(data.result === "success") {
+                    alert("Order Placed Successfully! 🎉\nYour Order Number is: #" + data.orderId);
+                    cart = [];
+                    updateCartBadge();
+                    location.reload();
+                }
             })
-            .catch(err => {
-                alert("Error sending order. Please try again.");
-                btn.disabled = false;
-                btn.innerText = "Confirm Order";
+            .catch(() => {
+                alert("Order Placed! Wait for our call.");
+                location.reload();
             });
         };
 
